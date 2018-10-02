@@ -1,2 +1,7 @@
-# WEB-115-1211-fall-2018
-http://web-115-1211-fall-2018.raccreallife.com/
+# 1xx
+
+https://1xx.inside-out-project.com
+
+inside out project version 100.0
+  - added header resize functionality
+  
