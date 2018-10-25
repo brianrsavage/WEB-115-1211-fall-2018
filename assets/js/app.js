@@ -17,24 +17,19 @@ function init() {
         }
     });
 
-
     $.ajax({
         method: 'GET',
-        url: 'assets/data/menu.json',
+        url: 'https://me.inside-out-project.com/wp-json/wp-api-menus/v2/menus/3',
         dataType: 'json',
         success: function (data) {
-
-            var menu = menuBuilder(data.menu);
-
-            $('nav').append(menu);
-
+            $('nav').hide();
+            $('#main').html('');
+            var menu = menuBuilder(data.items);
+            $('nav').html(menu).slideDown();
+           // $('nav').append(menu);
             $("#loaderDiv").fadeOut("slow");
-
         },
-        error: function () {
-
-            console.log('all is not good');
-
+        error: function () {console.log('all is not good');
         }
     });
 
@@ -42,34 +37,20 @@ function init() {
 
 
 function menuBuilder(obj) {
-
+    let styCls = '';
     var theMenu = '';
-
     if (obj.length > 0) {
-
         theMenu = theMenu + '<ul>';
-
         obj.forEach(function (item) {
-
-            theMenu = theMenu + '<li><a href="#">' + item.MenuName + '</a>';
-
-            if (item.Menus.length > 0) {
-
-                theMenu = theMenu + menuBuilder(item.Menus);
-
+            theMenu = theMenu + '<li><a href="#">' + item.title + '</a>';
+            if (item.children) {
+                theMenu = theMenu + menuBuilder(item.children);
             }
-
+            styCls = (styCls == '')?' class="color"':'';
+            $('#main').append('<section'+styCls+'><div class="container"><h1>' + item.title + '</h1></div></section>');
             theMenu = theMenu + '</li>';
-
         });
-
         theMenu = theMenu + '</ul>';
-
-    } else {
-
-        console.log('no data');
-
-    }
-
+    } else {console.log('no data');}
     return theMenu;
 }
